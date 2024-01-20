@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 app.post("/", async (req, res) => {
     try {
         const symbol = req.body.symbol;
-        const response = await axios.get("https://api.blockchain.com/v3/exchange/tickers/" + symbol.toUpperCase() + "-USD");
+        const response = await axios.get("https://api.blockchain.com/v3/exchange/tickers/" + symbol.toUpperCase() + ("-USD" || "-USDC" || "-USDT"));
         res.render("index.ejs", {data: response.data});
         console.log(response.data);
     } catch (error) {
