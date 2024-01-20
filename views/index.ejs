@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HenryStocks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="bg-light-subtle">
+    <div class="layer1">
+        <canvas id="test" class="layer2 bg-light-subtle"></canvas>
+        <div class="layer2">
+            <div class="container w-100">
+                <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor" class="bi bi-bezier" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 10.5A1.5 1.5 0 0 1 1.5 9h1A1.5 1.5 0 0 1 4 10.5v1A1.5 1.5 0 0 1 2.5 13h-1A1.5 1.5 0 0 1 0 11.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm10.5.5A1.5 1.5 0 0 1 13.5 9h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM6 4.5A1.5 1.5 0 0 1 7.5 3h1A1.5 1.5 0 0 1 10 4.5v1A1.5 1.5 0 0 1 8.5 7h-1A1.5 1.5 0 0 1 6 5.5zM7.5 4a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                            <path d="M6 4.5H1.866a1 1 0 1 0 0 1h2.668A6.52 6.52 0 0 0 1.814 9H2.5q.186 0 .358.043a5.52 5.52 0 0 1 3.185-3.185A1.5 1.5 0 0 1 6 5.5zm3.957 1.358A1.5 1.5 0 0 0 10 5.5v-1h4.134a1 1 0 1 1 0 1h-2.668a6.52 6.52 0 0 1 2.72 3.5H13.5q-.185 0-.358.043a5.52 5.52 0 0 0-3.185-3.185"/>
+                        </svg>
+                    </a>
+                </div>
+            
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-blue">Home</a></li>
+                    <li><a href="/about" class="nav-link px-2 text-black">About</a></li>
+                </ul>
+
+                </header>
+            </div>
+            <div class="container my-5 fullScreen">
+                <div class="bg-body h-100 position-relative p-5 text-center text-muted border border-dashed rounded-5 d-flex align-items-center justify-content-center">
+                    <div>
+                        <% if (locals.data) { %>
+                            <div class="container p-3">
+                                <h1 class="text-danger"><%= data.last_trade_price %> USD</h1>
+                                <h3 class="text-black"><%= data.symbol %></h3>
+                                <h5 class="text-black">24hr-Volume: <span class="text-muted"><%= data.volume_24h%></span> 24hr-Price: <span class="text-muted"><%= data.price_24h %> USD</span></h5>
+                            </div>
+                            
+                        <% } else { %>
+                        <h1 class="text-body-emphasis">How Expensive Is Your Coin?</h1>
+                        <p class="col-lg-6 mx-auto mb-4">
+                            Want to get live updates on your coin's price? Try it out!
+                        </p>
+                        <% } %>
+                        <form action="/" method="POST">
+                            <input type="text" placeholder="BTC" class="text-center rounded-5" name="symbol"></input><br>
+                            <input type="submit" value="Enter" class="mt-2 rounded-5 px-2"></input>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        var w = window.innerWidth,
+    h = window.innerHeight,
+    canvas = document.getElementById('test'),
+    ctx = canvas.getContext('2d'),
+    rate = 60,
+    arc = 100,
+    time,
+    count,
+    size = 7,
+    speed = 20,
+    parts = new Array,
+    colors = ['red','#f57900','yellow','#ce5c00','#5c3566'];
+var mouse = { x: 0, y: 0 };
+
+canvas.setAttribute('width',w);
+canvas.setAttribute('height',h);
+
+function create() {
+  time = 0;
+  count = 0;
+
+  for(var i = 0; i < arc; i++) {
+    parts[i] = {
+      x: Math.ceil(Math.random() * w),
+      y: Math.ceil(Math.random() * h),
+      toX: Math.random() * 5 - 1,
+      toY: Math.random() * 2 - 1,
+      c: colors[Math.floor(Math.random()*colors.length)],
+      size: Math.random() * size
+    }
+  }
+}
+
+function particles() {
+  ctx.clearRect(0,0,w,h);
+   canvas.addEventListener('mousemove', MouseMove, false);
+  for(var i = 0; i < arc; i++) {
+    var li = parts[i];
+    var distanceFactor = DistanceBetween( mouse, parts[i] );
+    var distanceFactor = Math.max( Math.min( 15 - ( distanceFactor / 10 ), 10 ), 1 );
+    ctx.beginPath();
+    ctx.arc(li.x,li.y,li.size*distanceFactor,0,Math.PI*2,false);
+    ctx.fillStyle = li.c;
+    ctx.strokeStyle=li.c;
+    if(i%2==0)
+      ctx.stroke();
+    else
+      ctx.fill();
+    
+    li.x = li.x + li.toX * (time * 0.05);
+    li.y = li.y + li.toY * (time * 0.05);
+    
+    if(li.x > w){
+       li.x = 0; 
+    }
+    if(li.y > h) {
+       li.y = 0; 
+    }
+    if(li.x < 0) {
+       li.x = w; 
+    }
+    if(li.y < 0) {
+       li.y = h; 
+    }
+   
+     
+  }
+  if(time < speed) {
+    time++;
+  }
+  setTimeout(particles,1000/rate);
+}
+function MouseMove(e) {
+   mouse.x = e.layerX;
+   mouse.y = e.layerY;
+
+   //context.fillRect(e.layerX, e.layerY, 5, 5);
+   //Draw( e.layerX, e.layerY );
+}
+function DistanceBetween(p1,p2) {
+   var dx = p2.x-p1.x;
+   var dy = p2.y-p1.y;
+   return Math.sqrt(dx*dx + dy*dy);
+}
+create();
+particles();
+    </script>
+</body>
+</html>
