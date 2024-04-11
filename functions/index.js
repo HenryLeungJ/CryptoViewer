@@ -1,6 +1,8 @@
-import express from 'express';
+import express, { Router } from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
+import serverless from "serverless-http";
+const router = Router();
 
 const app = express();
 const port = 3000;
@@ -14,11 +16,11 @@ app.listen(port, () => {
     console.log(`Port ${port} is running`);
 });
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
     res.render("index.ejs");
 });
 
-app.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const symbol = req.body.symbol;
         const response = await axios.get("https://api.blockchain.com/v3/exchange/tickers/" + symbol.toUpperCase() + ("-USD" || "-USDC" || "-USDT"));
@@ -29,7 +31,9 @@ app.post("/", async (req, res) => {
     }
 });
 
-app.get("/about", (req, res) => {
+router.get("/about", (req, res) => {
     res.render("about.ejs");
 });
 
+app.use("/", router);
+export const handler = serverless(app);
