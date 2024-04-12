@@ -1,9 +1,14 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import axios from 'axios';
+const express = require('express');
+const bodyParser = require('body-parser');
+const axios = require('axios');
+const cors = require('cors');
+
 
 const app = express();
-const port = 3000;
+const port = 3001;
+
+app.set('view engine', 'ejs');
+app.use(cors({origin: ['*'], optionsSuccessStatus: 200}));
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -32,3 +37,4 @@ app.get("/about", (req, res) => {
     res.render("about.ejs");
 });
 
+module.exports = app;
