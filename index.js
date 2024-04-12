@@ -1,12 +1,10 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import axios from 'axios';
+const express = require('express');
+const axios = require('axios');
 
 const app = express();
 const port = 3000;
 
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.listen(port, () => {
@@ -32,3 +30,4 @@ app.get("/about", (req, res) => {
     res.render("about.ejs");
 });
 
+module.export = app;
