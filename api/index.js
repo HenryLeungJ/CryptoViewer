@@ -30,7 +30,7 @@ app.post("/", async (req, res) => {
         res.render("index.ejs", {data: response.data});
         console.log(response.data);
     } catch (error) {
-        res.status(404).send(error.message);
+        res.render("index.ejs", {error: {}});
     }
 });
 
