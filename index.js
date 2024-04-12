@@ -5,7 +5,7 @@ const cors = require('cors')
 const app = express();
 const port = 3000;
 
-app.set('views', './views');
+app.set('views', './');
 app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
