@@ -7,6 +7,7 @@ const cors = require('cors');
 const app = express();
 const port = 3001;
 
+app.set("views", __dirname + "/views");
 app.set('view engine', 'ejs');
 app.use(cors({origin: ['*'], optionsSuccessStatus: 200}));
 
