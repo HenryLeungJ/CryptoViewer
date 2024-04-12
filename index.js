@@ -8,7 +8,7 @@ const port = 3000;
 app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
-app.use(cors({origin: '*'}));
+app.use(cors({origin: '*', optionsSuccessStatus: 200}));
 
 app.listen(port, () => {
     console.log(`Port ${port} is running`);
