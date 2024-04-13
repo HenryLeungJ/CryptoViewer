@@ -34,9 +34,9 @@
                     <div>
                         <% if (locals.data) { %>
                             <div class="container p-3">
-                                <h1 class="text-danger"><%= data.last_trade_price %> USD</h1>
+                                <h1 class="text-danger"><%= data.price %> USD</h1>
                                 <h3 class="text-black"><%= data.symbol %></h3>
-                                <h5 class="text-black">24hr-Volume: <span class="text-muted"><%= data.volume_24h%></span> 24hr-Price: <span class="text-muted"><%= data.price_24h %> USD</span></h5>
+                                <h5 class="text-black">24hr-Volume-Change: <span class="text-muted"><%= data.volume_24h%> USD</span> 24hr-Percent-Change: <span class="text-muted"><%= data.price_24h %>%</span></h5>
                             </div>
                         <% } else if (locals.error) { %>
                             <h1 class="text-body-emphasis text-danger">Coin Not Found</h1>
